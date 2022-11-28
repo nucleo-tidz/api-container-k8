@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
    inputs:
     enableManualDeployement :
-      description: 'Choose branch'
+      description: 'Click to enable manual deployment'
       default: false
       required: true
       type: boolean
@@ -41,7 +41,7 @@ jobs:
       uses: docker/login-action@v2.1.0
       with:
           registry: nucleotidz.azurecr.io
-          username: nucleotidz
+          username: 7edd4971-51f2-4b65-8382-2d724c445b12
           password: ${{secrets.ACR_PWD}}
     
     - name: Push to container registry
