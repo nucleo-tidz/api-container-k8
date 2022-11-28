@@ -46,6 +46,6 @@ jobs:
     
     - name: Push to container registry
       run: |
-        docker build -f ${{ env.docker-file-path }} . -t nucleoapi:${{github.sha}}
-        docker push nucleoapi:${{github.sha}}
+        docker build -f ${{ env.docker-file-path }} . -t nucleotidz.azurecr.io/nucleotidz/api:${{github.sha}}
+        docker push nucleotidz.azurecr.io/nucleotidz/api:${{github.sha}}
     
