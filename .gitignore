@@ -8,3 +8,4 @@
 /Consumer/obj
 /Consumer/bin
 /.github/kubernetes/deployments/Secret
+/.github/kubernetes/deployments/Secrtr.yml
