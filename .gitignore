@@ -5,3 +5,5 @@
 /.vs
 /Api/obj
 /Api/bin
+/Consumer/obj
+/Consumer/bin
