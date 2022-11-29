@@ -1,0 +1,51 @@
+name: worker.k8.cicd
+
+on:
+#  push:
+#    branches:
+#      - main
+
+
+  workflow_dispatch:
+   inputs:
+    enableManualDeployement :
+      description: 'Click to enable manual deployment'
+      default: false
+      required: true
+      type: boolean
+
+env:  
+  DOTNET_VERSION: '6.0.*'
+  docker-file-path: ./Consumer/Dockerfile
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 'Test'
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: build
+      run: |
+          dotnet restore
+          dotnet build --configuration Release
+
+    - name: publish
+      run: dotnet publish -c Release -o release
+
+    - name: Login container registry        
+      uses: docker/login-action@v2.1.0
+      with:
+          registry: nucleotidz.azurecr.io
+          username: nucleotidz
+          password: ${{secrets.ACR_PWD}}
+    
+    - name: Push to container registry
+      run: |
+        docker build -f ${{ env.docker-file-path }} . -t nucleotidz.azurecr.io/nucleotidz/consumer:${{github.sha}}
+        docker push nucleotidz.azurecr.io/nucleotidz/consumer:${{github.sha}}
+    
