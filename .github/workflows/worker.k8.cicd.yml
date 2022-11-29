@@ -49,3 +49,12 @@ jobs:
         docker build -f ${{ env.docker-file-path }} . -t nucleotidz.azurecr.io/nucleotidz/consumer:${{github.sha}}
         docker push nucleotidz.azurecr.io/nucleotidz/consumer:${{github.sha}}
     
+  deploy:
+    name: deploy to k8
+    runs-on: ubuntu-latest
+    environment: 'Test'
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
