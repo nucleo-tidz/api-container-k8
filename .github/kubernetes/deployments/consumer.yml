@@ -1,0 +1,63 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: nucleotidz-consumer
+  labels:
+    app: nucleotidz-consumer
+    product: nucleotidz
+spec:
+ replicas: 1
+ revisionHistoryLimit: 3
+ progressDeadlineSeconds: 300
+ strategy:
+   type: RollingUpdate
+   rollingUpdate:
+     maxSurge: 1
+     maxUnavailable: 0
+ selector:
+    matchLabels:
+      app: nucleotidz
+ template:
+    metadata:
+      labels:
+        app: nucleotidz
+        product: nucleotidz
+      annotations:
+        vault.security.banzaicloud.io/vault-role: nucleotidz-apps
+    spec:
+      securityContext:
+         runAsNonRoot:  true
+         fsGroup: 5000
+      containers:
+      - name: nucleotidz-apps
+        image:  nucleotidz.azurecr.io/nucleotidz/consumer
+        imagePullPolicy: Always
+        ports:
+        - name: health-check
+          containerPort: 5000
+          hostPort: 5000
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 2000
+        resources:
+          limits:
+           cpu: 3000m
+           memory: 1024Mi
+          requests:
+           cpu: 2000m
+           memory: 512Mi
+        readinessProbe: 
+          tcpSocket:
+           port: health-check
+          initialDelaySeconds: 30
+          failureThreshold: 3
+          timeoutSeconds: 60
+          periodSeconds: 60
+        livenessProbe: #Failing liveness probe will restart the container.
+         tcpSocket:
+          port: health-check
+         initialDelaySeconds: 30
+         failureThreshold: 3
+         timeoutSeconds: 60
+         periodSeconds: 60
+        
