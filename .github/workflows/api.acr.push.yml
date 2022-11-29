@@ -1,4 +1,4 @@
-name: docker.api.cicd
+name: api.k8.cicd
 
 on:
 #  push:
