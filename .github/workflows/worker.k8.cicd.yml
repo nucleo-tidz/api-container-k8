@@ -75,7 +75,7 @@ jobs:
       id: create-secret
       with:
         namespace: ${{ env.k8s-namespace }}
-        container-registry-url: https://nucleok8-dns-8f73eb86.hcp.westeurope.azmk8s.io:443
+        container-registry-url: nucleotidz.azurecr.io
         container-registry-username: nucleotidz
         container-registry-password: ${{ secrets.ACR_PWD }}
         secret-name: consumer-test
