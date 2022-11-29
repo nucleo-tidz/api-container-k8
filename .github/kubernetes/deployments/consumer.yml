@@ -23,7 +23,7 @@ spec:
         app: nucleotidz
         product: nucleotidz
       annotations:
-        vault.security.banzaicloud.io/vault-role: nucleotidz-apps
+        vault.security.banzaicloud.io/vault-role: default
     spec:
       securityContext:
          runAsNonRoot:  true
