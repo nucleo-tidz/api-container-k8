@@ -18,7 +18,9 @@ env:
   DOTNET_VERSION: '6.0.*'
   docker-file-path: ./Consumer/Dockerfile
   k8s-namespace: nucleotidz-apps
-  manifests-files: ./.github/kubernetes/deployments/consumer.yml
+  manifests-files: |
+    ./.github/kubernetes/deployments/consumer.yml
+    #./.github/kubernetes/services/api.yml
 jobs:
   build:
     runs-on: ubuntu-latest
